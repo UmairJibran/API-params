@@ -20,12 +20,6 @@ const apiVerification = (request, response, next) => {
 };
 app.use(Morgan("dev")); //using morgan middleware for development environment
 app.use(BodyParser.json()); //using body parser for json parsing
-// app.use(
-//    (request, response, next) => {
-//       console.log(`${request.method}: ${request.url}`);
-//       next();
-//    }
-// );
 
 //routes
 app.get("/", (req, res) => {
@@ -44,8 +38,23 @@ app.get("/profile", apiVerification, (req, res) => {
 
 app.post("/profile", apiVerification, (req, res) => {
    //adding new user profile to profile collection
-   profiles.push(req.body);
-   res.send(`${req.body.firstName} Added`);
+   const userProfile = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+   };
+   if (
+      userProfile.firstName &&
+      userProfile.lastName &&
+      userProfile.email &&
+      userProfile.password
+   ) {
+      profiles.push(userProfile);
+      res.send(`${req.body.firstName} Added`);
+   } else {
+      res.sendStatus(400);
+   }
 });
 
 app.put("/profile/:id", apiVerification, (req, res) => {
