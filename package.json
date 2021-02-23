@@ -23,6 +23,6 @@
       "morgan": "1.10.0"
    },
    "devDependencies": {
-      "node-dev": "6.2.0"
+      "node-dev": "6.3.0"
    }
 }
